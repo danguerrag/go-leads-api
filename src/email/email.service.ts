@@ -33,11 +33,18 @@ export class EmailService {
     this.transporter = nodemailer.createTransport({
       host: emailHost,
       port: emailPort,
-      secure: emailPort === 465,
+      secure: emailPort === 465, // true para 465 (SSL/TLS implícito), false para 587 (STARTTLS)
       auth: {
         user: emailUser,
         pass: emailPassword,
       },
+      tls: {
+        // No fallar en certificados no válidos (solo para servidores de correo propios)
+        rejectUnauthorized: false,
+      },
+      connectionTimeout: 10000, // 10 segundos
+      greetingTimeout: 10000, // 10 segundos para el saludo SMTP
+      socketTimeout: 10000, // 10 segundos
     });
 
     this.logger.log('Email service initialized successfully');
