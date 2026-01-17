@@ -42,9 +42,11 @@ export class EmailService {
         // No fallar en certificados no válidos (solo para servidores de correo propios)
         rejectUnauthorized: false,
       },
-      connectionTimeout: 10000, // 10 segundos
-      greetingTimeout: 10000, // 10 segundos para el saludo SMTP
-      socketTimeout: 10000, // 10 segundos
+      connectionTimeout: 30000, // 30 segundos - aumentado para ambientes cloud
+      greetingTimeout: 30000, // 30 segundos para el saludo SMTP
+      socketTimeout: 30000, // 30 segundos
+      logger: process.env.NODE_ENV !== 'production', // Habilitar logs en desarrollo
+      debug: process.env.NODE_ENV !== 'production', // Debug en desarrollo
     });
 
     this.logger.log('Email service initialized successfully');
